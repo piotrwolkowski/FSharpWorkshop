@@ -3,6 +3,7 @@
 // TODO:
 // - Add documentation - check if there is any plugin that will support standrd .Net documentation
 // - Check if works for forex data
+// - Move it to a separate project in VS and in GitHub. Try to moving it to QuantAnalyzerFSharp.
 
 open System
 open FSharp.Core
@@ -95,13 +96,10 @@ let createDataRequest dr df =
     let getBaseUrl database dataset dataFormat =
         let format = 
             match dataFormat with
-            // TODO:
-            // the "data" part may be unnecessary/harmful
-            // replace it with dataset.format, e.g. AAPL.csv
-            | DataFormat.CSV -> "data.csv"
-            | DataFormat.XML -> "data.xml"
-            | DataFormat.JSON -> "data.json"
-        String.concat "/" [|QUANDL_API_DATASET_URL;database;dataset;format|]
+            | DataFormat.CSV -> "csv"
+            | DataFormat.XML -> "xml"
+            | DataFormat.JSON -> "json"
+        String.concat "/" [|QUANDL_API_DATASET_URL;database;(sprintf "%s.%s" dataset format)|]
     if df.SortOrder.IsSome then
         let urlNoOrdering = getBaseUrl dr.Database dr.Dataset df.DataFormat
         let urlOrdered = sprintf "%s?order=%s" urlNoOrdering (if df.SortOrder.Value = SortOrder.Ascending then "asc" else "desc")
@@ -120,7 +118,6 @@ let createMetadataRequest dr df =
     MetadataUrl.Url(getBaseUrl dr.Database dr.Dataset df.DataFormat)
 
 let addKey key baseUrl =
-    // Deconstruct into a string.
     let (BaseUrl.Url baseUrl') = baseUrl
     let connector = if baseUrl'.Contains("?") then "&" else "?"
     RegisteredUrl.Url(sprintf "%s%sapi_key=%s" baseUrl' connector key)

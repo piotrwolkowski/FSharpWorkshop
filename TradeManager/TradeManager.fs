@@ -1,6 +1,6 @@
 ﻿namespace TradeManager
 
-open GetData
+open GetFxData
 open FSharp.Data
 open FSharp.Data.CsvExtensions
 open TradingPlatformDomain
@@ -13,10 +13,12 @@ open MovingAverageStrategy
 type TradeManager (pairName:string, portfolio:IPortfolio) =
     let pairName = pairName
     
-    let loader = new DataLoader(pairName) 
+    // Load data
+    let loader = new FxLoader(pairName) 
     //let resAvg = movingAvgShortAboveLongBuySell usdEurRates 20 40 120
     //let resAvg = movAvgStrategyFxFrame 90 30 loader.Rates
 
+    // Executes any trade algorithm that takes 2 parameters as input
     let executeAlgorithm timeSeries (portfolio:IPortfolio) algorithm param1 param2 =
         let res = algorithm param1 param2 timeSeries
         res 
@@ -36,7 +38,9 @@ type TradeManager (pairName:string, portfolio:IPortfolio) =
 
     let rnd = new System.Random()
     
-    // find best pair of parameters
+    // Find best pair of parameters
+    // Create random long and short period for moving average
+    // Test the strategy with different parameters
     let maSamples = 
         Seq.initInfinite (fun _ -> 
             let lng = rnd.Next(2,150)
@@ -51,9 +55,12 @@ type TradeManager (pairName:string, portfolio:IPortfolio) =
            )
         |> Seq.take 1000
 
+    // Get the parameters that performed best.
     let bestMA = maSamples |> Seq.maxBy (fun (a, b, c) -> c.CasheBalance) 
+
     let lng, shrt, ptf = bestMA
-    // run using the best parameters 
+    
+    // Run using the best performing parameters 
     let p28 = 
         executeAlgorithm 
             loader.Rates 

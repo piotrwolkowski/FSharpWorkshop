@@ -1,4 +1,6 @@
-﻿//open GetData
+﻿// TODO: Change data loading to Quandl loader.
+
+//open GetData
 //open FSharp.Data.CsvExtensions
 //open TradingPlatformDomain
 //open TrendAnalyzer

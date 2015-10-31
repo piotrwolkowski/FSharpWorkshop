@@ -30,6 +30,7 @@ let movAvgStrategyFxFrame (long:int) (short:int) (series:FxFrame list) =
     let lMA = (Math.Abs long) - 1
     let sMA = (Math.Abs short) - 1
     let arrSeries = series |> List.toArray
+    // Take time series and start mapping moving averages for consecutive periods.
     arrSeries
     |> Array.mapi (fun i x ->
         let sIndex = if i - sMA < 0 then 0 else i - sMA
@@ -37,12 +38,14 @@ let movAvgStrategyFxFrame (long:int) (short:int) (series:FxFrame list) =
         let sAvg = Array.averageBy (fun x -> x.rate) arrSeries.[sIndex..i]
         let lAvg = Array.averageBy (fun x -> x.rate) arrSeries.[lIndex..i]
 
+        // Get previous index to calculate an average for a period
         let j = if i - 1 < 0 then 0 else i - 1
         let sIndexPrev = if j - sMA < 0 then 0 else j - sMA
         let lIndexPrev = if j - lMA < 0 then 0 else j - lMA
         let sAvgPrev = Array.averageBy (fun x -> x.rate) arrSeries.[sIndexPrev..j]
         let lAvgPrev = Array.averageBy (fun x -> x.rate) arrSeries.[lIndexPrev..j]
 
+        // Go long or short depending on the relation between moving averages
         if (sAvg > lAvg && sAvgPrev <= lAvgPrev) then
             Some ({direction=SignalDirection.Long;item=x})
         else if (sAvg < lAvg && sAvgPrev >= lAvgPrev) then

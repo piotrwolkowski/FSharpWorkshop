@@ -19,6 +19,8 @@ Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Portfolio", "Portfolio\Port
 EndProject
 Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "QuantAnalyzerEntryPoint", "QuantAnalyzerFSharp\QuantAnalyzerEntryPoint.fsproj", "{0589CFB5-B03C-49CB-A6D8-50CCD9CA163E}"
 EndProject
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "QuandlFSharp", "QuandlFSharp\QuandlFSharp.fsproj", "{4962EC23-A606-449A-BA37-D38155C7DACD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -57,6 +59,10 @@ Global
 		{0589CFB5-B03C-49CB-A6D8-50CCD9CA163E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0589CFB5-B03C-49CB-A6D8-50CCD9CA163E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0589CFB5-B03C-49CB-A6D8-50CCD9CA163E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4962EC23-A606-449A-BA37-D38155C7DACD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4962EC23-A606-449A-BA37-D38155C7DACD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4962EC23-A606-449A-BA37-D38155C7DACD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4962EC23-A606-449A-BA37-D38155C7DACD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

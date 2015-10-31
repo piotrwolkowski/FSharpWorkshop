@@ -7,10 +7,10 @@ let propagateEvent frm =
     let patternFoundEvent = new Event<_>()
     patternFoundEvent.Trigger(frm)
 
-let orderTimeSeries frms =
+let orderTimeSeries frms : FxFrame list =
     frms |> List.sortBy (fun x -> x.date)
 
-/// candleFoundHandler - can be event trigger or a method that creates a trad signal or simply true/false
+/// candleFoundHandler - can be event trigger or a method that creates a trade signal or simply true/false
 let findEnclosed fxFrames handlerFn =
     let ordered = fxFrames |> orderTimeSeries
     let rec iterate frms =
